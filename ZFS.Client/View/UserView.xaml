@@ -1,0 +1,93 @@
+﻿<UserControl x:Class="ZFS.Client.View.UserView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ZFS.Client.View"
+             xmlns:Common="clr-namespace:ZFS.Client.UiCore.Template"
+               xmlns:vc="clr-namespace:ZFS.Client.UiCore.Converter"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <vc:FlagConverter x:Key="flg"/>
+        <vc:StatusConverter x:Key="sta"/>
+        <vc:VisibilityConverter x:Key="ec_visibility"/>
+    </UserControl.Resources>
+    <Grid>
+        <TabControl BorderThickness="0" Background="{StaticResource DefaultBackGround}">
+            <!--列表页-->
+            <TabItem>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="80"/>
+                        <RowDefinition/>
+                        <RowDefinition Height="45"/>
+                    </Grid.RowDefinitions>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Horizontal"  VerticalAlignment="Bottom" >
+                            <TextBlock Text="搜索条件: " Foreground="#434343" FontSize="13"  VerticalAlignment="Center" Margin="20 0 0 0"/>
+                            <TextBox Text="{Binding SearchText}"  Foreground="#434343" VerticalAlignment="Center" Width="150" />
+                            <Button  Style="{StaticResource ResourceKey=SimpleButtonStyle}"  Content="查询" Command="{Binding QueryCommand}"/>
+                            <Button  Style="{StaticResource ResourceKey=SimpleButtonStyle}"  Content="重置" Command="{Binding ResetCommand}"/>
+                        </StackPanel>
+                        <Common:UserToolBar HorizontalAlignment="Right" Grid.Row="1"/>
+                    </Grid>
+
+                    <DataGrid Grid.Row="1"
+            Visibility="{Binding DisplayGrid,Converter={StaticResource ec_visibility}}" 
+                CanUserSortColumns="True"  Background="{StaticResource DefaultBackGround}"  
+                  CanUserAddRows="False" AutoGenerateColumns="False" ItemsSource="{Binding GridModelList}"
+                      IsReadOnly="True"  >
+                        <DataGrid.InputBindings>
+                            <MouseBinding MouseAction="LeftDoubleClick"  
+                                  CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                        AncestorType=DataGrid}, Path=SelectedItem}"  
+                                  Command="{Binding EditCommand}"/>
+                        </DataGrid.InputBindings>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Account}" Header="登录账号"/>
+                            <DataGridTextColumn Binding="{Binding UserName}" Header="用户名"/>
+                            <DataGridTextColumn Binding="{Binding Address}" Header="地址"/>
+                            <DataGridTextColumn Binding="{Binding Tel}" Header="电话" />
+                            <DataGridTextColumn Binding="{Binding FlagOnline,Converter={StaticResource sta}}" Header="状态" />
+                            <DataGridTextColumn Binding="{Binding CreateTime,StringFormat={}{0:yyyy-MM-dd hh:mm}}" Header="创建时间" />
+                            <DataGridTextColumn Binding="{Binding LastLoginTime,StringFormat={}{0:yyyy-MM-dd hh:mm}}" Header="最后登录时间" />
+                            <DataGridTextColumn Binding="{Binding LoginCounter}" Header="登陆次数" />
+                            <DataGridTemplateColumn Header="操作" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <Button  Style="{StaticResource ResourceKey=SimpleButtonStyle}" Background="#008E81" BorderBrush="#008E81"
+                                             VerticalAlignment="Center" HorizontalAlignment="Left" Content="编辑"
+                                             CommandParameter="{Binding}"  
+                                             Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}" 
+                                             />
+
+                                            <Button  Style="{StaticResource ResourceKey=SimpleButtonStyle}"  Background="#FF5722" BorderBrush="#FF5722"
+                                             VerticalAlignment="Center" HorizontalAlignment="Left" Margin="8 0 0 0" Content="删除" FontFamily="Calibri"
+                                             CommandParameter="{Binding}" Command="{Binding DataContext.DelCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}"
+                                             />
+
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <Common:UcDataPager VerticalAlignment="Top" Grid.Row="2"/>
+                </Grid>
+            </TabItem>
+
+            <!--编辑页-->
+            <TabItem>
+                
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>
