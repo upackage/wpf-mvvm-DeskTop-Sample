@@ -21,31 +21,9 @@ namespace ZFS.Client.ViewModel.VMBase
     {
         #region BaseProperty  [Query、Button、GridModel]
 
-        private T _Model;
-        private bool _IsChecked;
         private string searchText = string.Empty;
         private ObservableCollection<T> _GridModelList;
         private ObservableCollection<ToolBarDefault<T>> _ButtonDefaults;
-
-        public ActionMode Mode { get; set; }
-
-        /// <summary>
-        /// 编辑窗口展开状态
-        /// </summary>
-        public bool IsChecked
-        {
-            get { return _IsChecked; }
-            set { _IsChecked = value; RaisePropertyChanged(); }
-        }
-
-        /// <summary>
-        /// 操作实体
-        /// </summary>
-        public T Model
-        {
-            get { return _Model; }
-            set { _Model = value; RaisePropertyChanged(); }
-        }
 
         /// <summary>
         /// 搜索内容
@@ -199,6 +177,24 @@ namespace ZFS.Client.ViewModel.VMBase
 
 
         #endregion
+
+        #region TabPageIndex/Detail
+
+        private T _Model;
+        private int tabpageIndex;
+        public int TabPageIndex { get { return tabpageIndex; } set { tabpageIndex = value; RaisePropertyChanged();  } }
+        public ActionMode Mode { get; set; }
+
+        /// <summary>
+        /// 操作实体
+        /// </summary>
+        public T Model
+        {
+            get { return _Model; }
+            set { _Model = value; RaisePropertyChanged(); }
+        }
+
+        #endregion
     }
 
     /// <summary>
@@ -350,9 +346,10 @@ namespace ZFS.Client.ViewModel.VMBase
         /// </summary>
         public virtual void Add<TModel>(TModel model)
         {
+
             Model = model as T;
+            TabPageIndex = 1;
             Mode = ActionMode.Add;
-            IsChecked = true;
         }
 
         /// <summary>
@@ -361,8 +358,8 @@ namespace ZFS.Client.ViewModel.VMBase
         public virtual void Edit<TModel>(TModel model)
         {
             Model = model as T;
+            TabPageIndex = 1;
             Mode = ActionMode.Edit;
-            IsChecked = true;
         }
 
         /// <summary>
@@ -391,18 +388,17 @@ namespace ZFS.Client.ViewModel.VMBase
         /// </summary>
         public virtual void Save()
         {
-
+            TabPageIndex = 0;
         }
 
         /// <summary>
-        /// 取消保存
+        /// 返回
         /// </summary>
         public virtual void Cancel()
         {
-            IsChecked = false;
+            TabPageIndex = 0;
         }
 
         #endregion
-
     }
 }

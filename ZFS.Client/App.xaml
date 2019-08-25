@@ -1,9 +1,11 @@
 <Application x:Class="ZFS.Client.App" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:ZFS.Client" StartupUri="MainWindow.xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" d1p1:Ignorable="d" xmlns:d1p1="http://schemas.openxmlformats.org/markup-compatibility/2006">
   <Application.Resources>
         <ResourceDictionary>
-            <SolidColorBrush x:Key="DefaultBackGround" Color="#EFF2F4"  />
+           
             
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/UiCore/Template/Style/SolidStyle.xaml"/>
+                <ResourceDictionary Source="/UiCore/Template/Style/TabControlStyles.xaml"/>
                 <ResourceDictionary Source="/UiCore/Template/Style/WindowStyle.xaml"/>
                 <ResourceDictionary Source="/UiCore/Template/Style/TextBlockStyles.xaml"/>
                 <ResourceDictionary Source="/UiCore/Template/ExpanderDictionary.xaml"/>

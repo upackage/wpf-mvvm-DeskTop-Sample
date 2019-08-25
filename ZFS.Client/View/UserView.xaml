@@ -7,6 +7,8 @@
              xmlns:Common="clr-namespace:ZFS.Client.UiCore.Template"
                xmlns:vc="clr-namespace:ZFS.Client.UiCore.Converter"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:domain="clr-namespace:ZFS.Client.UiCore.ValidationRules"
+               xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
@@ -15,7 +17,7 @@
         <vc:VisibilityConverter x:Key="ec_visibility"/>
     </UserControl.Resources>
     <Grid>
-        <TabControl BorderThickness="0" Background="{StaticResource DefaultBackGround}">
+        <TabControl SelectedIndex="{Binding TabPageIndex}">
             <!--列表页-->
             <TabItem>
                 <Grid>
@@ -26,18 +28,32 @@
                     </Grid.RowDefinitions>
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="35"/>
                             <RowDefinition Height="40"/>
                         </Grid.RowDefinitions>
-                        <StackPanel Orientation="Horizontal"  VerticalAlignment="Bottom" >
-                            <TextBlock Text="搜索条件: " Foreground="#434343" FontSize="13"  VerticalAlignment="Center" Margin="20 0 0 0"/>
-                            <TextBox Text="{Binding SearchText}"  Foreground="#434343" VerticalAlignment="Center" Width="150" />
-                            <Button  Style="{StaticResource ResourceKey=SimpleButtonStyle}"  Content="查询" Command="{Binding QueryCommand}"/>
-                            <Button  Style="{StaticResource ResourceKey=SimpleButtonStyle}"  Content="重置" Command="{Binding ResetCommand}"/>
-                        </StackPanel>
-                        <Common:UserToolBar HorizontalAlignment="Right" Grid.Row="1"/>
-                    </Grid>
+                        <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="10 0 0 0">
+                            <TextBlock Text="查找用户 " Foreground="#434343" FontSize="13" VerticalAlignment="Center" />
+                            <TextBox Text="{Binding SearchText,Mode=TwoWay}" materialDesign:HintAssist.Hint="请输入账号/用户名" Margin="5 0 0 0" Foreground="#434343" VerticalAlignment="Center" Width="180" />
 
+                            <Button Margin="5 0 0 0" Width="28" Height="28" ToolTip="搜索" Style="{x:Null}" Background="Transparent" BorderThickness="0" Command="{Binding QueryCommand}">
+                                <materialDesign:PackIcon Kind="Magnify" HorizontalAlignment="Center"  
+                                                      Width="25 " Height="25"  Foreground="{Binding Path=BorderBrush,RelativeSource={RelativeSource 
+                                                        Mode=FindAncestor,AncestorType={x:Type Button}}}" 
+                                                         VerticalAlignment="Center">
+                                </materialDesign:PackIcon>
+                            </Button>
+
+                            <Button Margin="5 0 0 0" Width="28" Height="28" Style="{x:Null}" ToolTip="重置" Background="Transparent" BorderThickness="0" Command="{Binding ResetCommand}">
+                                <materialDesign:PackIcon Kind="Refresh" HorizontalAlignment="Center"  
+                                                      Width="25 " Height="25"  Foreground="{Binding Path=BorderBrush,RelativeSource={RelativeSource 
+                                                        Mode=FindAncestor,AncestorType={x:Type Button}}}" 
+                                                         VerticalAlignment="Center">
+                                </materialDesign:PackIcon>
+                            </Button>
+                        </StackPanel>
+                        <Border Background="#EDEDED" BorderThickness="3 0 0 0" BorderBrush="#A3A3A3"/>
+                        <Common:UserToolBar Margin="5 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                    </Grid>
                     <DataGrid Grid.Row="1"
             Visibility="{Binding DisplayGrid,Converter={StaticResource ec_visibility}}" 
                 CanUserSortColumns="True"  Background="{StaticResource DefaultBackGround}"  
@@ -62,16 +78,26 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                            <Button  Style="{StaticResource ResourceKey=SimpleButtonStyle}" Background="#008E81" BorderBrush="#008E81"
-                                             VerticalAlignment="Center" HorizontalAlignment="Left" Content="编辑"
-                                             CommandParameter="{Binding}"  
-                                             Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}" 
-                                             />
 
-                                            <Button  Style="{StaticResource ResourceKey=SimpleButtonStyle}"  Background="#FF5722" BorderBrush="#FF5722"
-                                             VerticalAlignment="Center" HorizontalAlignment="Left" Margin="8 0 0 0" Content="删除" FontFamily="Calibri"
-                                             CommandParameter="{Binding}" Command="{Binding DataContext.DelCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}"
-                                             />
+                                            <Button Margin="5 0 0 0" Width="28" Height="28" Style="{x:Null}" ToolTip="编辑" Background="Transparent" BorderThickness="0"   
+                                                    CommandParameter="{Binding}"  
+                                             Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}" >
+                                                <materialDesign:PackIcon Kind="Pencil" HorizontalAlignment="Center"  
+                                                      Width="20 " Height="20"  Foreground="{Binding Path=BorderBrush,RelativeSource={RelativeSource 
+                                                        Mode=FindAncestor,AncestorType={x:Type Button}}}" 
+                                                         VerticalAlignment="Center">
+                                                </materialDesign:PackIcon>
+                                            </Button>
+
+                                            <Button Margin="5 0 0 0" Width="28" Height="28" Style="{x:Null}" ToolTip="删除" Background="Transparent" BorderThickness="0"   
+                                                    CommandParameter="{Binding}"  
+                                             Command="{Binding DataContext.DelCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}" >
+                                                <materialDesign:PackIcon Kind="BookmarkRemove" HorizontalAlignment="Center"  
+                                                      Width="25 " Height="25"  Foreground="{Binding Path=BorderBrush,RelativeSource={RelativeSource 
+                                                        Mode=FindAncestor,AncestorType={x:Type Button}}}" 
+                                                         VerticalAlignment="Center">
+                                                </materialDesign:PackIcon>
+                                            </Button>
 
                                         </StackPanel>
                                     </DataTemplate>
@@ -79,14 +105,94 @@
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-
                     <Common:UcDataPager VerticalAlignment="Top" Grid.Row="2"/>
                 </Grid>
             </TabItem>
 
             <!--编辑页-->
             <TabItem>
-                
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <Border Background="#EDEDED" BorderThickness="3 0 0 0" BorderBrush="#A3A3A3"/>
+
+                    <StackPanel Orientation="Horizontal"  Margin="10 0 0 0">
+                        <Button Margin="5 0 0 0" Width="28" Height="28" ToolTip="保存" Style="{x:Null}" Background="Transparent" BorderThickness="0" Command="{Binding SaveCommand}">
+                            <materialDesign:PackIcon Kind="Check" HorizontalAlignment="Center"  
+                                                      Width="25 " Height="25"  Foreground="{Binding Path=BorderBrush,RelativeSource={RelativeSource 
+                                                        Mode=FindAncestor,AncestorType={x:Type Button}}}" 
+                                                         VerticalAlignment="Center">
+                            </materialDesign:PackIcon>
+                        </Button>
+
+                        <Button Margin="5 0 0 0" Width="28" Height="28" Style="{x:Null}" ToolTip="取消" Background="Transparent" BorderThickness="0" Command="{Binding CancelCommand}">
+                            <materialDesign:PackIcon Kind="Close" HorizontalAlignment="Center"  
+                                                      Width="25 " Height="25"  Foreground="{Binding Path=BorderBrush,RelativeSource={RelativeSource 
+                                                        Mode=FindAncestor,AncestorType={x:Type Button}}}" 
+                                                         VerticalAlignment="Center">
+                            </materialDesign:PackIcon>
+                        </Button>
+                    </StackPanel>
+                    
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="70"/>
+                            <RowDefinition Height="70"/>
+                            <RowDefinition Height="70"/>
+                            <RowDefinition Height="70"/>
+                            <RowDefinition Height="70"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="180"/>
+                            <ColumnDefinition Width="180"/>
+                            <ColumnDefinition Width="100"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBox  Margin="15 0 10 0"  
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"  materialDesign:HintAssist.Hint="登录名 *"   >
+                        </TextBox>
+
+                        <TextBox Grid.Column="1"  Margin="15 0 10 0"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"  materialDesign:HintAssist.Hint="用户名 *">
+                        </TextBox>
+
+                        <TextBox Grid.Row="1" Margin="15 0 10 0"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"  materialDesign:HintAssist.Hint="用户密码 *"  >
+                        </TextBox>
+
+                        <TextBox Grid.Row="1" Grid.Column="1"  Margin="15 0 10 0"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"  materialDesign:HintAssist.Hint="联系电话 *"   >
+                        </TextBox>
+
+                        <TextBox Grid.Row="2" Grid.ColumnSpan="2" Margin="15 0 10 0" 
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                 TextWrapping="Wrap"  materialDesign:HintAssist.Hint="电子邮件 (选填)" Text="{Binding User.Email}" />
+
+                        <TextBox Grid.Row="3" Grid.ColumnSpan="3" Margin="15 0 0 0"  
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"  
+                                 TextWrapping="Wrap"  materialDesign:HintAssist.Hint="现居住址 (选填)" Text="{Binding User.Address}"  />
+
+                        <CheckBox Grid.Row="2" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"  Content="锁定账户" Foreground="DimGray" FontSize="15" />
+
+                        <Grid Grid.Column="2" Grid.RowSpan="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition Height="20"/>
+                            </Grid.RowDefinitions>
+
+                            <Border Width="100" Height="100" Background="DarkGray">
+
+                            </Border>
+                            <Border Grid.Row="1"  Background="#20B2AA">
+                                <TextBlock Text="点击上传头像" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
+                            </Border>
+                        </Grid>
+                    </Grid>
+                </Grid>
             </TabItem>
         </TabControl>
     </Grid>
