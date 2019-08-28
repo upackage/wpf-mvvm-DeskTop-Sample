@@ -19,6 +19,16 @@ namespace ZFS.Client.LogicCore.Common
         private string mark;
         private string moduleName;
         private RelayCommand<T> command;
+        private string iconString;
+
+        /// <summary>
+        /// 图标名称
+        /// </summary>
+        public string IconSting
+        {
+            get { return iconString; }
+            set { iconString = value; RaisePropertyChanged(); }
+        }
 
         /// <summary>
         /// 隐藏

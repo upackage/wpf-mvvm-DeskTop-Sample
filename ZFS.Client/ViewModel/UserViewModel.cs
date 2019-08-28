@@ -17,7 +17,7 @@ namespace ZFS.Client.ViewModel
     /// 用户列表
     /// </summary>
     [Module(ModuleType.BasicData, "UserDlg", "用户管理")]
-    public class UserViewModel : BaseOperation<User>
+    public class UserViewModel : DataProcess<User>
     {
         private readonly IUserService service;
         public UserViewModel()

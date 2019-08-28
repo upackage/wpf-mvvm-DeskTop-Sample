@@ -9,7 +9,7 @@ namespace ZFS.Client.LogicCore.Interface
     /// <summary>
     ///权限操作接口
     /// </summary>
-    public interface IPermission
+    public interface IPermissions
     {
         /// <summary>
         /// 获取按钮权限

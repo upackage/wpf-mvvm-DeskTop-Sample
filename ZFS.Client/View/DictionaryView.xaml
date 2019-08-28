@@ -7,95 +7,68 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:uitemplate="clr-namespace:ZFS.Client.UiCore.Template"
              mc:Ignorable="d" >
-    <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding IsChecked}">
-        <materialDesign:DrawerHost.LeftDrawerContent>
-            <DockPanel MinWidth="300">
-                <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" 
-                                    DockPanel.Dock="Top"
-                                    HorizontalAlignment="Left" Margin="15"
-                                    IsChecked="{Binding IsChecked}" />
-                <StackPanel Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Center"  >
-                    <StackPanel Orientation="Horizontal">
-                        <ComboBox DisplayMemberPath="TypeName" SelectedValuePath="isid" 
-                                  ItemsSource="{Binding TypeList}" 
-                                  SelectedValue="{Binding Model.DataType}" 
-                                  materialDesign:HintAssist.Hint="字典类型 *" 
-                                  Width="200" IsEditable="True" />
-                        <Button Height="25" Content="+" Width="45" Margin="15 0 0 0"/>
-                    </StackPanel>
-                    <TextBox  Text="{Binding Model.DataCode}"  Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center" Height="60" AcceptsReturn="True" TextWrapping="Wrap"  materialDesign:HintAssist.Hint="字典编号 *"   />
-                    <TextBox  Text="{Binding Model.NativeName}" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center" Height="60" AcceptsReturn="True" TextWrapping="Wrap"  materialDesign:HintAssist.Hint="中文名称 *"   />
-                    <TextBox  Text="{Binding Model.EnglishName}" Style="{StaticResource MaterialDesignFloatingHintTextBox}" VerticalAlignment="Center" Height="60" AcceptsReturn="True" TextWrapping="Wrap"  materialDesign:HintAssist.Hint="英文名称"  />
+    <Grid Background="{StaticResource DefaultBackGround}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="80"/>
+                <RowDefinition/>
+                <RowDefinition Height="40"/>
+            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
 
-                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0 20 20 0">
-                        <Button  Style="{StaticResource ResourceKey=SimpleButtonStyle}"  Content="保存" Command="{Binding SaveCommand}"/>
-                        <Button  Style="{StaticResource ResourceKey=SimpleButtonStyle}"  Content="取消" Command="{Binding CancelCommand}"/>
-                    </StackPanel>
+                <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="10 0 0 0">
+                    <TextBlock Text="搜索条件: " Foreground="#434343" FontSize="13"  VerticalAlignment="Center" />
+                    <TextBox Text="{Binding SearchText}" materialDesign:HintAssist.Hint="请输入编号/中英文" Margin="5 0 0 0" Foreground="#434343" VerticalAlignment="Center" Width="180" />
+                    <uitemplate:UserOperateBar Margin="5 0 0 0" VerticalAlignment="Center"/>
                 </StackPanel>
-            </DockPanel>
-        </materialDesign:DrawerHost.LeftDrawerContent>
-        <DockPanel>
-            <Grid Background="{StaticResource DefaultBackGround}">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="80"/>
-                        <RowDefinition/>
-                        <RowDefinition Height="40"/>
-                    </Grid.RowDefinitions>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="40"/>
-                            <RowDefinition Height="40"/>
-                        </Grid.RowDefinitions>
-
-                        <StackPanel Orientation="Horizontal"  VerticalAlignment="Bottom" >
-                            <TextBlock Text="搜索条件: " Foreground="#434343" FontSize="13"  VerticalAlignment="Center" Margin="20 0 0 0"/>
-                            <TextBox Text="{Binding SearchText}" Foreground="#434343" VerticalAlignment="Center" Width="200" />
-                            <Button  Style="{StaticResource ResourceKey=SimpleButtonStyle}"  Content="查询" Command="{Binding QueryCommand}"/>
-                            <Button  Style="{StaticResource ResourceKey=SimpleButtonStyle}"  Content="重置" Command="{Binding ResetCommand}"/>
-
-                        </StackPanel>
-                        <uitemplate:UserToolBar HorizontalAlignment="Right" Grid.Row="1"/>
-                    </Grid>
-
-                    <Grid Grid.Row="1">
-                        <DataGrid CanUserSortColumns="True" Background="{StaticResource DefaultBackGround}" CanUserAddRows="False" AutoGenerateColumns="False" ItemsSource="{Binding GridModelList}"
-                      IsReadOnly="True" >
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Binding="{Binding DataCode}" Header="字典编号"/>
-                                <DataGridTextColumn Binding="{Binding NativeName}" Header="中文名"/>
-                                <DataGridTextColumn Binding="{Binding EnglishName}" Header="英文名"/>
-                                <DataGridTextColumn Binding="{Binding CreateBy}" Header="创建者"/>
-                                <DataGridTextColumn Binding="{Binding CreateTime,StringFormat={}{0:yyyy-MM-dd hh:mm}}" Header="创建时间"/>
-                                <DataGridTextColumn Binding="{Binding LastTimeBy}" Header="最后更新者"/>
-                                <DataGridTextColumn Binding="{Binding LastTime,StringFormat={}{0:yyyy-MM-dd hh:mm}}" Header="最后更新时间"/>
-                                <DataGridTemplateColumn Header="操作" >
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                                <Button  Style="{StaticResource ResourceKey=SimpleButtonStyle}" Background="#008E81" BorderBrush="#008E81"
-                                             VerticalAlignment="Center" HorizontalAlignment="Left" Content="编辑"
-                                             CommandParameter="{Binding}"  
-                                             Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}" 
-                                             />
-
-                                                <Button  Style="{StaticResource ResourceKey=SimpleButtonStyle}"  Background="#FF5722" BorderBrush="#FF5722"
-                                             VerticalAlignment="Center" HorizontalAlignment="Left" Margin="8 0 0 0" Content="删除" FontFamily="Calibri"
-                                             CommandParameter="{Binding}" Command="{Binding DataContext.DelCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}"
-                                             />
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                            </DataGrid.Columns>
-                        </DataGrid>
-                    </Grid>
-
-                    <Grid Grid.Row="2" >
-                        <uitemplate:UcDataPager VerticalAlignment="Top"/>
-                    </Grid>
-                </Grid>
+                <Border Background="#EDEDED" BorderThickness="3 0 0 0" BorderBrush="#A3A3A3"/>
+                <uitemplate:UserToolBar Margin="5 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
             </Grid>
-        </DockPanel>
-    </materialDesign:DrawerHost>
+
+            <DataGrid Grid.Row="1" CanUserSortColumns="True" Background="{StaticResource DefaultBackGround}" CanUserAddRows="False" AutoGenerateColumns="False" ItemsSource="{Binding GridModelList}"
+                      IsReadOnly="True" >
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding DataCode}" Header="字典编号"/>
+                    <DataGridTextColumn Binding="{Binding NativeName}" Header="中文名"/>
+                    <DataGridTextColumn Binding="{Binding EnglishName}" Header="英文名"/>
+                    <DataGridTextColumn Binding="{Binding CreateBy}" Header="创建者"/>
+                    <DataGridTextColumn Binding="{Binding CreateTime,StringFormat={}{0:yyyy-MM-dd hh:mm}}" Header="创建时间"/>
+                    <DataGridTextColumn Binding="{Binding LastTimeBy}" Header="最后更新者"/>
+                    <DataGridTextColumn Binding="{Binding LastTime,StringFormat={}{0:yyyy-MM-dd hh:mm}}" Header="最后更新时间"/>
+                    <DataGridTemplateColumn Header="操作" >
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                    <Button Margin="5 0 0 0" Style="{StaticResource IconButtonStyle}" ToolTip="编辑" 
+                                                    CommandParameter="{Binding}" Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}" >
+                                        <materialDesign:PackIcon Kind="Pencil" HorizontalAlignment="Center"  
+                                                      Width="20 " Height="20"  Foreground="{Binding Path=BorderBrush,RelativeSource={RelativeSource 
+                                                        Mode=FindAncestor,AncestorType={x:Type Button}}}" 
+                                                         VerticalAlignment="Center">
+                                        </materialDesign:PackIcon>
+                                    </Button>
+
+                                    <Button Margin="5 0 0 0" Style="{StaticResource IconButtonStyle}" ToolTip="删除"  
+                                                    CommandParameter="{Binding}"  
+                                             Command="{Binding DataContext.DelCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}" >
+                                        <materialDesign:PackIcon Kind="BookmarkRemove" HorizontalAlignment="Center"  
+                                                      Width="25 " Height="25"  Foreground="{Binding Path=BorderBrush,RelativeSource={RelativeSource 
+                                                        Mode=FindAncestor,AncestorType={x:Type Button}}}" 
+                                                         VerticalAlignment="Center">
+                                        </materialDesign:PackIcon>
+                                    </Button>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <uitemplate:UcDataPager VerticalAlignment="Top" Grid.Row="2"/>
+        </Grid>
+    </Grid>
 </UserControl>

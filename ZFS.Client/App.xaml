@@ -4,6 +4,7 @@
            
             
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/UiCore/Template/Style/IconButtonStyle.xaml"/>
                 <ResourceDictionary Source="/UiCore/Template/Style/SolidStyle.xaml"/>
                 <ResourceDictionary Source="/UiCore/Template/Style/TabControlStyles.xaml"/>
                 <ResourceDictionary Source="/UiCore/Template/Style/WindowStyle.xaml"/>

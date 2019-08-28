@@ -12,7 +12,7 @@ namespace ZFS.Client.ViewModel.VMBase
     /// <summary>
     /// 弹出式窗口基类
     /// </summary>
-    public class BaseDialogOperation : ViewModelBase
+    public class DialogProcess : ViewModelBase
     {
         public bool Result { get; set; }
 

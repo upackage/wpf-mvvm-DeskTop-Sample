@@ -168,6 +168,12 @@
     <Compile Include="UiCore\Template\UserColorBar.xaml.cs">
       <DependentUpon>UserColorBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UiCore\Template\UserDetailToolBar.xaml.cs">
+      <DependentUpon>UserDetailToolBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UiCore\Template\UserOperateBar.xaml.cs">
+      <DependentUpon>UserOperateBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UiCore\Template\UserToolBar.xaml.cs">
       <DependentUpon>UserToolBar.xaml</DependentUpon>
     </Compile>
@@ -180,8 +186,8 @@
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\UserViewModel.cs" />
-    <Compile Include="ViewModel\VMBase\BaseDialogOperation.cs" />
-    <Compile Include="ViewModel\VMBase\BaseOperation.cs" />
+    <Compile Include="ViewModel\VMBase\DialogProcess.cs" />
+    <Compile Include="ViewModel\VMBase\DataProcess.cs" />
     <Compile Include="ViewModel\VMBase\BaseView.cs" />
     <Compile Include="ViewModel\VMBase\BaseViewDialog.cs" />
     <Compile Include="View\DictionaryView.xaml.cs">
@@ -269,6 +275,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UiCore\Template\Style\IconButtonStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UiCore\Template\Style\SolidStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -290,6 +300,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UiCore\Template\UserColorBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UiCore\Template\UserDetailToolBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UiCore\Template\UserOperateBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

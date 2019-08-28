@@ -17,13 +17,15 @@ namespace ZFS.Client.ViewModel.VMBase
     /// <summary>
     /// 主窗口基类
     /// </summary>
-    public partial class BaseOperation<T> : ViewModelBase where T : class, new()
+    public partial class DataProcess<T> : ViewModelBase where T : class, new()
     {
         #region BaseProperty  [Query、Button、GridModel]
 
         private string searchText = string.Empty;
-        private ObservableCollection<T> _GridModelList;
-        private ObservableCollection<ToolBarDefault<T>> _ButtonDefaults;
+        private ObservableCollection<T> gridModelList;
+        private ObservableCollection<ToolBarDefault<T>> buttonDefaults;
+        private ObservableCollection<ToolBarDefault<T>> detailButtonDefaults;
+        private ObservableCollection<ToolBarDefault<T>> toolButtonsDefaults;
 
         /// <summary>
         /// 搜索内容
@@ -35,21 +37,39 @@ namespace ZFS.Client.ViewModel.VMBase
         }
 
         /// <summary>
-        /// 表单数据
+        /// 抽象表单数据
         /// </summary>
         public ObservableCollection<T> GridModelList
         {
-            get { return _GridModelList; }
-            set { _GridModelList = value; RaisePropertyChanged(); }
+            get { return gridModelList; }
+            set { gridModelList = value; RaisePropertyChanged(); }
         }
 
         /// <summary>
-        /// 按钮
+        /// 表单按钮
         /// </summary>
         public ObservableCollection<ToolBarDefault<T>> ButtonDefaults
         {
-            get { return _ButtonDefaults; }
-            set { _ButtonDefaults = value; RaisePropertyChanged(); }
+            get { return buttonDefaults; }
+            set { buttonDefaults = value; RaisePropertyChanged(); }
+        }
+
+        /// <summary>
+        /// 详细按钮
+        /// </summary>
+        public ObservableCollection<ToolBarDefault<T>> DetailButtonDefaults
+        {
+            get { return detailButtonDefaults; }
+            set { detailButtonDefaults = value; RaisePropertyChanged(); }
+        }
+
+        /// <summary>
+        /// 工具按钮
+        /// </summary>
+        public ObservableCollection<ToolBarDefault<T>> ToolButtonsDefaults
+        {
+            get { return toolButtonsDefaults; }
+            set { toolButtonsDefaults = value; RaisePropertyChanged(); }
         }
 
         #endregion
@@ -62,7 +82,6 @@ namespace ZFS.Client.ViewModel.VMBase
         public virtual void Init()
         {
             GridModelList = new ObservableCollection<T>();
-            ButtonDefaults = new ObservableCollection<ToolBarDefault<T>>();
             this.SetDefaultButton(); //默认功能按钮
             this.LoadModuleAuth();//加载模块权限
             this.GetPageData(this.PageIndex); //获取首次加载数据
@@ -73,108 +92,22 @@ namespace ZFS.Client.ViewModel.VMBase
         /// </summary>
         public virtual void SetDefaultButton()
         {
-            ButtonDefaults.Add(new ToolBarDefault<T>() { AuthValue = Authority.ADD, ModuleName = "新增", Command = this.AddCommand });
-            ButtonDefaults.Add(new ToolBarDefault<T>() { AuthValue = Authority.EDIT, ModuleName = "编辑", Command = this.EditCommand, Hide = true });
-            ButtonDefaults.Add(new ToolBarDefault<T>() { AuthValue = Authority.DELETE, ModuleName = "删除", Command = this.DelCommand, Hide = true });
+            //表单按钮
+            ButtonDefaults = new ObservableCollection<ToolBarDefault<T>>();
+            ButtonDefaults.Add(new ToolBarDefault<T>() { AuthValue = Authority.ADD, ModuleName = "新增", IconSting = "Plus", Command = new RelayCommand<T>(t => Add(t)) });
+            //ButtonDefaults.Add(new ToolBarDefault<T>() { AuthValue = Authority.EDIT, ModuleName = "编辑", IconSting = "Pencil", Command = new RelayCommand<T>(t => Edit(t)), Hide = true });
+            //ButtonDefaults.Add(new ToolBarDefault<T>() { AuthValue = Authority.DELETE, ModuleName = "删除", IconSting = "BookmarkRemove", Command = new RelayCommand<T>(t => Del(t)), Hide = true });
+
+            //编辑栏按钮
+            DetailButtonDefaults = new ObservableCollection<ToolBarDefault<T>>();
+            DetailButtonDefaults.Add(new ToolBarDefault<T>() { ModuleName = "保存", IconSting = "Check", Command = new RelayCommand<T>(t => Save()) });
+            DetailButtonDefaults.Add(new ToolBarDefault<T>() { ModuleName = "取消", IconSting = "Close", Command = new RelayCommand<T>(t => Cancel()) });
+
+            //工具按钮
+            ToolButtonsDefaults = new ObservableCollection<ToolBarDefault<T>>();
+            ToolButtonsDefaults.Add(new ToolBarDefault<T>() { ModuleName = "查询", IconSting = "Magnify", Command = new RelayCommand<T>(t => Query()) });
+            ToolButtonsDefaults.Add(new ToolBarDefault<T>() { ModuleName = "重置", IconSting = "Refresh", Command = new RelayCommand<T>(t => Reset()) });
         }
-
-        #endregion
-
-        #region Command
-
-        private RelayCommand<T> _AddCommand;
-        private RelayCommand<T> _EditCommand;
-        private RelayCommand<T> _DelCommand;
-        private RelayCommand _QueryCommand;
-        private RelayCommand _ResetCommand;
-        private RelayCommand _SaveCommand;
-        private RelayCommand _CancelCommand;
-
-        /// <summary>
-        /// 新增
-        /// </summary>
-        public RelayCommand<T> AddCommand
-        {
-            get
-            {
-                if (_AddCommand == null) _AddCommand = new RelayCommand<T>(t => Add(t));
-                return _AddCommand;
-            }
-        }
-
-        /// <summary>
-        /// 编辑
-        /// </summary>
-        public RelayCommand<T> EditCommand
-        {
-            get
-            {
-                if (_EditCommand == null) _EditCommand = new RelayCommand<T>(t => Edit(t));
-                return _EditCommand;
-            }
-        }
-
-        /// <summary>
-        /// 删除
-        /// </summary>
-        public RelayCommand<T> DelCommand
-        {
-            get
-            {
-                if (_DelCommand == null) _DelCommand = new RelayCommand<T>(t => Del(t));
-                return _DelCommand;
-            }
-        }
-
-        /// <summary>
-        /// 查询
-        /// </summary>
-        public RelayCommand QueryCommand
-        {
-            get
-            {
-                if (_QueryCommand == null) _QueryCommand = new RelayCommand(() => Query());
-                return _QueryCommand;
-            }
-        }
-
-        /// <summary>
-        /// 重置
-        /// </summary>
-        public RelayCommand ResetCommand
-        {
-            get
-            {
-                if (_ResetCommand == null) _ResetCommand = new RelayCommand(() => Reset());
-                return _ResetCommand;
-            }
-        }
-
-        /// <summary>
-        /// 保存
-        /// </summary>
-        public RelayCommand SaveCommand
-        {
-            get
-            {
-                if (_SaveCommand == null) _SaveCommand = new RelayCommand(() => Save());
-                return _SaveCommand;
-            }
-        }
-
-        /// <summary>
-        /// 取消
-        /// </summary>
-        public RelayCommand CancelCommand
-        {
-            get
-            {
-                if (_CancelCommand == null) _CancelCommand = new RelayCommand(() => Cancel());
-                return _CancelCommand;
-            }
-        }
-
-
 
         #endregion
 
@@ -182,7 +115,7 @@ namespace ZFS.Client.ViewModel.VMBase
 
         private T _Model;
         private int tabpageIndex;
-        public int TabPageIndex { get { return tabpageIndex; } set { tabpageIndex = value; RaisePropertyChanged();  } }
+        public int TabPageIndex { get { return tabpageIndex; } set { tabpageIndex = value; RaisePropertyChanged(); } }
         public ActionMode Mode { get; set; }
 
         /// <summary>
@@ -201,7 +134,7 @@ namespace ZFS.Client.ViewModel.VMBase
     /// 主窗口/分布基类
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public partial class BaseOperation<T> : LogicCore.Interface.IPermission, IDataPager
+    public partial class DataProcess<T> : IPermissions, IDataPager
     {
         #region IPermission
 

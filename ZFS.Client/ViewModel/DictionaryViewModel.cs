@@ -17,7 +17,7 @@ namespace ZFS.Client.ViewModel
     /// 数据字典
     /// </summary>
     [Module(ModuleType.BasicData, "DictionaryDlg", "字典管理")]
-    public class DictionaryViewModel : BaseOperation<Dictionaries>
+    public class DictionaryViewModel : DataProcess<Dictionaries>
     {
         private readonly IDictionariesService service;
 
@@ -66,15 +66,13 @@ namespace ZFS.Client.ViewModel
 
         public override async void Add<TModel>(TModel model)
         {
-            //TypeList = (await ServiceProvider.Instance.Get<IBridgeManager>(Loginer.LoginerUser.ServerBridgeType).GetDictionaryTypeManager().GetDictionaryTypes()).Results;
             base.Add(model);
         }
 
         public override async void Edit<TModel>(TModel model)
         {
             if (!this.GetButtonAuth(Authority.EDIT)) return;
-
-            //TypeList = (await ServiceProvider.Instance.Get<IBridgeManager>(Loginer.LoginerUser.ServerBridgeType).GetDictionaryTypeManager().GetDictionaryTypes()).Results;
+            
             base.Edit(model);
         }
 

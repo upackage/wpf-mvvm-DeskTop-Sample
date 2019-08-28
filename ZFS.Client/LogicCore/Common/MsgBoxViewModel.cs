@@ -10,7 +10,7 @@ namespace ZFS.Client.LogicCore.Common
     /// <summary>
     /// 信息提示窗口-Window
     /// </summary>
-    public class MsgBoxViewModel : BaseDialogOperation
+    public class MsgBoxViewModel : DialogProcess
     {
         #region 属性
 
