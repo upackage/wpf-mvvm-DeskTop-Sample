@@ -26,7 +26,7 @@ namespace ZFS.Client.LogicCore.Common
                 var m = (ModuleType)r;
                 var descattr = GetEnumAttrbute.GetDescription(m);
                 if (descattr != null)
-                    mgGroups.Add(new ModuleGroup() { GroupIcon = descattr.ModuleIcon, GroupName = descattr.ModuleName });
+                    mgGroups.Add(new ModuleGroup() { GroupIcon = descattr.Remark, GroupName = descattr.Caption });
             }
 
             return mgGroups;

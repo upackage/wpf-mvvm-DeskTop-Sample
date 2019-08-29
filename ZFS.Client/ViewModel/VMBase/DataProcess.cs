@@ -11,6 +11,7 @@ using ZFS.Client.LogicCore.Common;
 using ZFS.Client.LogicCore.Configuration;
 using ZFS.Client.LogicCore.Enums;
 using ZFS.Client.LogicCore.Interface;
+using ZFS.Client.UiCore.ValidationRules;
 
 namespace ZFS.Client.ViewModel.VMBase
 {
@@ -82,9 +83,19 @@ namespace ZFS.Client.ViewModel.VMBase
         public virtual void Init()
         {
             GridModelList = new ObservableCollection<T>();
+            this.InitCommand();
             this.SetDefaultButton(); //默认功能按钮
             this.LoadModuleAuth();//加载模块权限
             this.GetPageData(this.PageIndex); //获取首次加载数据
+        }
+
+        /// <summary>
+        /// 初始化命令
+        /// </summary>
+        public void InitCommand()
+        {
+            EditCommand = new RelayCommand<T>(t => Edit(t));
+            DelCommand = new RelayCommand<T>(t => Del(t));
         }
 
         /// <summary>
@@ -127,6 +138,16 @@ namespace ZFS.Client.ViewModel.VMBase
             set { _Model = value; RaisePropertyChanged(); }
         }
 
+
+        public RelayCommand<T> EditCommand
+        {
+            get; private set;
+        }
+        public RelayCommand<T> DelCommand
+        {
+            get; private set;
+        }
+
         #endregion
     }
 
@@ -134,7 +155,7 @@ namespace ZFS.Client.ViewModel.VMBase
     /// 主窗口/分布基类
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public partial class DataProcess<T> : IPermissions, IDataPager
+    public partial class DataProcess<T> : IPermissions, IDataPager, IValidationExceptionHandler
     {
         #region IPermission
 
@@ -330,6 +351,21 @@ namespace ZFS.Client.ViewModel.VMBase
         public virtual void Cancel()
         {
             TabPageIndex = 0;
+        }
+
+        #endregion
+
+        #region IValidationExceptionHandler
+
+        private bool isValid;
+
+        /// <summary>
+        /// 实体验证是否通过
+        /// </summary>
+        public bool IsValid
+        {
+            get { return isValid; }
+            set { isValid = value; RaisePropertyChanged(); }
         }
 
         #endregion

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using ZFS.Client.LogicCore.Common;
 using ZFS.Client.LogicCore.Configuration;
 using ZFS.Client.LogicCore.Enums;
@@ -48,6 +49,20 @@ namespace ZFS.Client.ViewModel
             {
                 Msg.Error(ex.Message);
             }
+        }
+
+        public override void Edit<TModel>(TModel model)
+        {
+            base.Edit(model);
+        }
+
+        public override void Save()
+        {
+            if (!this.IsValid)
+            {
+                return;
+            }
+            base.Save();
         }
     }
 }

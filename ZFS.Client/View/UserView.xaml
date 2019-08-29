@@ -16,6 +16,9 @@
         <vc:StatusConverter x:Key="sta"/>
         <vc:VisibilityConverter x:Key="ec_visibility"/>
     </UserControl.Resources>
+    <i:Interaction.Behaviors>
+        <domain:ValidationExceptionBehavior></domain:ValidationExceptionBehavior>
+    </i:Interaction.Behaviors>
     <Grid>
         <TabControl SelectedIndex="{Binding TabPageIndex}">
             <!--列表页-->
@@ -39,8 +42,7 @@
                         <Border Background="#EDEDED" BorderThickness="3 0 0 0" BorderBrush="#A3A3A3"/>
                         <Common:UserToolBar Margin="5 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                     </Grid>
-                    <DataGrid Grid.Row="1"
-            Visibility="{Binding DisplayGrid,Converter={StaticResource ec_visibility}}" 
+                    <DataGrid Grid.Row="1" 
                 CanUserSortColumns="True"  Background="{StaticResource DefaultBackGround}"  
                   CanUserAddRows="False" AutoGenerateColumns="False" ItemsSource="{Binding GridModelList}"
                       IsReadOnly="True"  >
@@ -104,7 +106,7 @@
                     <Border Background="#EDEDED" BorderThickness="3 0 0 0" BorderBrush="#A3A3A3"/>
 
                     <Common:UserDetailToolBar Margin="10 0 0 0" VerticalAlignment="Center"/>
-                    
+
                     <Grid Grid.Row="1">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="70"/>
@@ -120,31 +122,43 @@
                             <ColumnDefinition Width="100"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBox  Margin="15 0 10 0"  
-                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"  materialDesign:HintAssist.Hint="登录名 *"   >
+                        <TextBox  Margin="15 0 10 0" 
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"  materialDesign:HintAssist.Hint="登录名 *">
+                            <TextBox.Text>
+                                <Binding Path="Model.Account" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
+                                    <Binding.ValidationRules>
+                                        <domain:CustomizeValidationRule validationType="Str" 
+                                                                        minLength="3" maxLength="10"
+                                                                        errorMessage="输入长度范围 [3-10]字" 
+                                                                        ValidatesOnTargetUpdated="True" />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
                         </TextBox>
 
                         <TextBox Grid.Column="1"  Margin="15 0 10 0"
-                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"  materialDesign:HintAssist.Hint="用户名 *">
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"  materialDesign:HintAssist.Hint="用户名 *" Text="{Binding Model.UserName}">
                         </TextBox>
 
                         <TextBox Grid.Row="1" Margin="15 0 10 0"
-                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"  materialDesign:HintAssist.Hint="用户密码 *"  >
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"  materialDesign:HintAssist.Hint="用户密码 *"  Text="{Binding Model.Password}">
                         </TextBox>
 
                         <TextBox Grid.Row="1" Grid.Column="1"  Margin="15 0 10 0"
-                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"  materialDesign:HintAssist.Hint="联系电话 *"   >
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"  materialDesign:HintAssist.Hint="联系电话 *"  Text="{Binding Model.Tel}" >
                         </TextBox>
 
                         <TextBox Grid.Row="2" Grid.ColumnSpan="2" Margin="15 0 10 0" 
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                                 TextWrapping="Wrap"  materialDesign:HintAssist.Hint="电子邮件 (选填)" Text="{Binding User.Email}" />
+                                 TextWrapping="Wrap"  materialDesign:HintAssist.Hint="电子邮件 (选填)" Text="{Binding Model.Email}" />
 
                         <TextBox Grid.Row="3" Grid.ColumnSpan="3" Margin="15 0 0 0"  
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"  
-                                 TextWrapping="Wrap"  materialDesign:HintAssist.Hint="现居住址 (选填)" Text="{Binding User.Address}"  />
+                                 TextWrapping="Wrap"  materialDesign:HintAssist.Hint="现居住址 (选填)" Text="{Binding Model.Address}"  />
 
-                        <CheckBox Grid.Row="2" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"  Content="锁定账户" Foreground="DimGray" FontSize="15" />
+                        <CheckBox Grid.Row="2" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"  
+                                 IsChecked="{Binding Model.IsLocked}"
+                                  Content="锁定账户" Foreground="DimGray" FontSize="15" />
 
                         <Grid Grid.Column="2" Grid.RowSpan="2">
                             <Grid.RowDefinitions>

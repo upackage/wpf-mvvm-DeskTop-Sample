@@ -30,7 +30,7 @@ namespace ZFS.Client.LogicCore.Common
                 ModuleType t = (ModuleType)m;
                 var attr = GetEnumAttrbute.GetDescription(t);
                 if (attr != null)
-                    _ModuleGroups.Add(new ModuleGroup() { ModuleType = t, GroupName = attr.ModuleName, GroupIcon = attr.ModuleIcon });
+                    _ModuleGroups.Add(new ModuleGroup() { ModuleType = t, GroupName = attr.Caption, GroupIcon = attr.Remark });
             }
         }
 

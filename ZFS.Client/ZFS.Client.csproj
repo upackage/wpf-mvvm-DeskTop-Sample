@@ -112,6 +112,7 @@
     <Compile Include="LogicCore\Enums\ContextMenuType.cs" />
     <Compile Include="LogicCore\Enums\ExpansionState.cs" />
     <Compile Include="LogicCore\Enums\ModuleAttribute.cs" />
+    <Compile Include="LogicCore\Enums\ValidationType.cs" />
     <Compile Include="LogicCore\Helpers\CEncoder.cs" />
     <Compile Include="LogicCore\Helpers\Files\IniFile.cs" />
     <Compile Include="LogicCore\Interface\IAutoFacLocator.cs" />
@@ -177,7 +178,10 @@
     <Compile Include="UiCore\Template\UserToolBar.xaml.cs">
       <DependentUpon>UserToolBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UiCore\ValidationRules\CustomizeValidationRule.cs" />
+    <Compile Include="UiCore\ValidationRules\IValidationExceptionHandler.cs" />
     <Compile Include="UiCore\ValidationRules\NotEmptyValidationRule.cs" />
+    <Compile Include="UiCore\ValidationRules\ValidationExceptionBehavior.cs" />
     <Compile Include="ViewDlg\DictionaryDlg.cs" />
     <Compile Include="ViewDlg\LoginViewDlg.cs" />
     <Compile Include="ViewDlg\MainViewDlg.cs" />

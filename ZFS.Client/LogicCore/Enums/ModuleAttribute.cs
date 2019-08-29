@@ -111,7 +111,7 @@ namespace ZFS.Client.LogicCore.Enums
 
         public string ModuleTypeName
         {
-            get { return GetEnumAttrbute.GetDescription(ModuleType).ModuleName; }
+            get { return GetEnumAttrbute.GetDescription(ModuleType).Caption; }
         }
 
 
@@ -124,22 +124,16 @@ namespace ZFS.Client.LogicCore.Enums
     [AttributeUsage(AttributeTargets.Field)]
     public class DescriptionAttribute : Attribute
     {
-        protected string _ModuleName = string.Empty;
-        protected string _ModuleIcon = string.Empty;
+        protected string caption = string.Empty;
+        protected string remark = string.Empty;
 
-        public string ModuleName { get { return _ModuleName; } }
-        public string ModuleIcon { get { return _ModuleIcon; } }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="caption">显示名称</param>
-        /// <param name="disableLoading">禁止模块加载</param>
-        /// <param name="ico">Logo</param>
-        public DescriptionAttribute(string caption, string ico = "BorderAll")
+        public string Caption { get { return caption; } }
+        public string Remark { get { return remark; } }
+        
+        public DescriptionAttribute(string caption, string remark = "BorderAll")
         {
-            this._ModuleName = caption;
-            this._ModuleIcon = ico;
+            this.caption = caption;
+            this.remark = remark;
         }
 
     }
