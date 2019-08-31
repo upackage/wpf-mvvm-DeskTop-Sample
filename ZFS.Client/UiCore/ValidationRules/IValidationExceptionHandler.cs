@@ -16,5 +16,13 @@ namespace ZFS.Client.UiCore.ValidationRules
             get;
             set;
         }
+
+        /// <summary>
+        /// 清空异常
+        /// </summary>
+        bool IsClear
+        {
+            get;set;
+        }
     }
 }

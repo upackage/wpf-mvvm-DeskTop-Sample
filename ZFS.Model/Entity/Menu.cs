@@ -5,6 +5,7 @@ using System.Text;
 
 namespace ZFS.Model.Entity
 {
+    [Serializable]
     public class Menu : BaseEntity
     {
         public string MenuCode { get; set; }

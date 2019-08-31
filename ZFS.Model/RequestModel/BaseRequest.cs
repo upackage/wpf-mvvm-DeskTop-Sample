@@ -26,12 +26,16 @@ namespace ZFS.Model.RequestModel
         [Prevent]
         public virtual string route { get; set; }
 
+        [Prevent]
+        public string getParameter { get; set; }
+
         /// <summary>
         /// 获取请求对象得属性转换值
         /// </summary>
         /// <returns></returns>
         public string GetPropertiesObject()
         {
+            StringBuilder getBuilder = new StringBuilder();
             StringBuilder builder = new StringBuilder();
             var type = this.GetType();
             var propertyArray = type.GetProperties();
@@ -59,14 +63,14 @@ namespace ZFS.Model.RequestModel
                                 var Qpvalue = Qproperty.GetValue(pvalue);
                                 if (Qpvalue != null && Qpvalue.ToString() != "")
                                 {
-                                    if (pbuilder.ToString() == string.Empty) pbuilder.Append("?");
-                                    pbuilder.Append(Qproperty.Name + "=" + HttpUtility.UrlEncode(Convert.ToString(Qpvalue)) + "&");
+                                    if (getBuilder.ToString() == string.Empty) getBuilder.Append("?");
+                                    getBuilder.Append(Qproperty.Name + "=" + HttpUtility.UrlEncode(Convert.ToString(Qpvalue)) + "&");
                                 }
                             }
                         }
-                        builder.Append(pbuilder.ToString());
+                        getBuilder.Append(pbuilder.ToString());
                     }
-                    else if (pvalue != null && pvalue.GetType().Namespace == "ZFS.Model.RequestModel")
+                    else if (pvalue != null && pvalue.GetType().Namespace == "ZFS.Model.Entity")
                     {
                         //当属性为对象得情况下, 进行序列化
                         pvalue = JsonConvert.SerializeObject(pvalue);
@@ -74,12 +78,16 @@ namespace ZFS.Model.RequestModel
                     }
                     else
                     {
-                        //当属性为C#基础类型得情况下,默认Get传参
-                        if (builder.ToString() == string.Empty) builder.Append("?");
-                        builder.Append(property.Name + "=" + HttpUtility.UrlEncode(Convert.ToString(pvalue)) + "&");
+                        //当属性为C#基础类型得情况下,默认Get传参, 拼接至路由地址中
+                        if (getBuilder.ToString() == string.Empty) getBuilder.Append("?");
+                        getBuilder.Append($"&{property.Name}={HttpUtility.UrlEncode(Convert.ToString(pvalue))}&");
                     }
                 }
             }
+
+            string getStr = getBuilder.ToString().Trim('&');
+            if (!string.IsNullOrWhiteSpace(getStr))
+                getParameter = getStr;
             return builder.ToString().Trim('&');
         }
     }

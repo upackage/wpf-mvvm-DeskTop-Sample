@@ -51,16 +51,43 @@ namespace ZFS.Client.ViewModel
             }
         }
 
-        public override void Edit<TModel>(TModel model)
+        public override async void Del<TModel>(TModel model)
         {
-            base.Edit(model);
+            var user = model as User;
+            var delResult = await service.DeleteUserAsync(user.Id);
+            if (delResult)
+            {
+                GetPageData(this.PageIndex);
+            }
         }
 
-        public override void Save()
+        public override async void Save()
         {
             if (!this.IsValid)
             {
                 return;
+            }
+
+            if (Mode == ActionMode.Add)
+            {
+                var addResult = await service.AddUserAsync(Model);
+                if (addResult)
+                {
+                    GridModelList.Add(Model);
+                }
+            }
+            else
+            {
+                var updateResult = await service.UpdateUserAsync(Model);
+                if (updateResult)
+                {
+                    var model = GridModelList.FirstOrDefault(t => t.Id == Model.Id);
+                    if (model != null)
+                    {
+                        GridModelList.Remove(model);
+                        GridModelList.Add(Model);
+                    }
+                }
             }
             base.Save();
         }

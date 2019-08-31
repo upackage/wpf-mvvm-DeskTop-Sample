@@ -114,6 +114,7 @@
     <Compile Include="LogicCore\Enums\ModuleAttribute.cs" />
     <Compile Include="LogicCore\Enums\ValidationType.cs" />
     <Compile Include="LogicCore\Helpers\CEncoder.cs" />
+    <Compile Include="LogicCore\Helpers\DataHelper.cs" />
     <Compile Include="LogicCore\Helpers\Files\IniFile.cs" />
     <Compile Include="LogicCore\Interface\IAutoFacLocator.cs" />
     <Compile Include="LogicCore\Interface\IDataOperation.cs" />

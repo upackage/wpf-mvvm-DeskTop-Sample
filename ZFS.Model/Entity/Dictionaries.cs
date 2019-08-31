@@ -4,6 +4,7 @@ using System.Text;
 
 namespace ZFS.Model.Entity
 {
+    [Serializable]
     public class Dictionaries : BaseEntity
     {
         public string TypeCode { get; set; }

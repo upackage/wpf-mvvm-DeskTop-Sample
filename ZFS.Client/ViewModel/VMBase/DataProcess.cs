@@ -12,6 +12,7 @@ using ZFS.Client.LogicCore.Configuration;
 using ZFS.Client.LogicCore.Enums;
 using ZFS.Client.LogicCore.Interface;
 using ZFS.Client.UiCore.ValidationRules;
+using ZFS.Client.LogicCore.Helpers;
 
 namespace ZFS.Client.ViewModel.VMBase
 {
@@ -300,10 +301,10 @@ namespace ZFS.Client.ViewModel.VMBase
         /// </summary>
         public virtual void Add<TModel>(TModel model)
         {
-
-            Model = model as T;
-            TabPageIndex = 1;
+            Model = new T();
             Mode = ActionMode.Add;
+            TabPageIndex = 1;
+
         }
 
         /// <summary>
@@ -311,9 +312,9 @@ namespace ZFS.Client.ViewModel.VMBase
         /// </summary>
         public virtual void Edit<TModel>(TModel model)
         {
-            Model = model as T;
-            TabPageIndex = 1;
+            Model = (model as T).ToDynamic<T>();
             Mode = ActionMode.Edit;
+            TabPageIndex = 1;
         }
 
         /// <summary>
@@ -358,6 +359,7 @@ namespace ZFS.Client.ViewModel.VMBase
         #region IValidationExceptionHandler
 
         private bool isValid;
+        private bool isClear;
 
         /// <summary>
         /// 实体验证是否通过
@@ -366,6 +368,15 @@ namespace ZFS.Client.ViewModel.VMBase
         {
             get { return isValid; }
             set { isValid = value; RaisePropertyChanged(); }
+        }
+
+        /// <summary>
+        /// 清除异常错误
+        /// </summary>
+        public bool IsClear
+        {
+            get { return isClear; }
+            set { isClear = value; RaisePropertyChanged(); }
         }
 
         #endregion

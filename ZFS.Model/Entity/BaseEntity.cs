@@ -10,6 +10,7 @@ namespace ZFS.Model.Entity
         int Id { get; set; }
     }
 
+    [Serializable]
     public class BaseEntity : IBaseEntity
     {
         [Key]

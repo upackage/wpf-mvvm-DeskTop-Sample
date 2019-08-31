@@ -77,6 +77,7 @@ namespace ZFS.Service
                         https.Connection = "application/json";
                         break;
                     default:
+                        https.Connection = "application/json";
                         break;
                 }
                 //获取请求返回的数据 
@@ -113,6 +114,7 @@ namespace ZFS.Service
             }
             catch (Exception ex)
             {
+
                 throw ex;
             }
         }

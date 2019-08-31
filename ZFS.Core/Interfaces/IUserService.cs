@@ -16,7 +16,7 @@ namespace ZFS.Core.Interfaces
 
         Task<bool> AddUserAsync(User model);
 
-        Task<bool> DeleteUserAsync(Guid id);
+        Task<bool> DeleteUserAsync(int id);
 
         Task<GetUserResponse> GetUsersAsync(UserParameters parameter);
 

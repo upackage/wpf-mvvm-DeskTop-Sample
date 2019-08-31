@@ -60,7 +60,7 @@ namespace ZFS.Client.UiCore.ValidationRules
             try
             {
                 var handler = GetValidationExceptionHandler();
-
+                
                 var element = e.OriginalSource as UIElement;
 
                 if (handler == null || element == null)
@@ -69,7 +69,6 @@ namespace ZFS.Client.UiCore.ValidationRules
                 if (e.Action == ValidationErrorEventAction.Added)
                 {
                     _validationExceptionCount++;
-                    
                 }
                 else if (e.Action == ValidationErrorEventAction.Removed)
                 {

@@ -22,13 +22,14 @@ namespace ZFS.Client.UiCore.ValidationRules
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
             string regex = string.Empty;
-            if (validationType != ValidationType.None&&validationType!= ValidationType.Str)
+            if (validationType != ValidationType.None && validationType != ValidationType.Str)
                 regex = GetEnumAttrbute.GetDescription(validationType).Caption;
 
             if (!string.IsNullOrWhiteSpace(regex))
             {
                 Regex re = new Regex(regex);
-                if (re.IsMatch((value ?? "").ToString()))
+                string input = (value ?? "").ToString();
+                if (re.IsMatch(input))
                 {
                     return ValidationResult.ValidResult;
                 }
@@ -38,7 +39,8 @@ namespace ZFS.Client.UiCore.ValidationRules
             else
             {
                 string input = (value ?? "").ToString();
-                if (input.Length < minLength || input.Length > 10)
+                int length = Encoding.Default.GetByteCount(input);
+                if (length < minLength || length > maxLength)
                 {
                     return new ValidationResult(false, errorMessage);
                 }

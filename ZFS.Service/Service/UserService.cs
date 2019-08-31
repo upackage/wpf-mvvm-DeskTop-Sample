@@ -14,21 +14,21 @@ namespace ZFS.Service.Service
         public async Task<bool> AddUserAsync(User model)
         {
             BaseServiceRequest<UserResponse> baseService = new BaseServiceRequest<UserResponse>();
-            var r = await baseService.GetRequest(new UserAeRequest() { Entity = model });
-            return r.Result;
+            var r = await baseService.GetRequest(new UserAddRequest() { Entity = model }, Method.POST);
+            return r.success;
         }
 
-        public async Task<bool> DeleteUserAsync(Guid id)
+        public async Task<bool> DeleteUserAsync(int id)
         {
             BaseServiceRequest<UserResponse> baseService = new BaseServiceRequest<UserResponse>();
-            var r = await baseService.GetRequest(new UserDeleteRequest() { id = id });
-            return r.Result;
+            var r = await baseService.GetRequest(new UserDeleteRequest() { id = id }, Method.DELETE);
+            return r.success;
         }
 
         public async Task<GetUserResponse> GetUsersAsync(UserParameters parameters)
         {
             BaseServiceRequest<GetUserResponse> baseService = new BaseServiceRequest<GetUserResponse>();
-            var r = await baseService.GetRequest(new UserQueryRequest() {  parameters = parameters });
+            var r = await baseService.GetRequest(new UserQueryRequest() { parameters = parameters });
             return r;
         }
 
@@ -49,8 +49,8 @@ namespace ZFS.Service.Service
         public async Task<bool> UpdateUserAsync(User model)
         {
             BaseServiceRequest<UserResponse> baseService = new BaseServiceRequest<UserResponse>();
-            var r = await baseService.GetRequest(new UserAeRequest() { Entity = model });
-            return r.Result;
+            var r = await baseService.GetRequest(new UserUpdateRequest() { id = model.Id, Entity = model }, Method.POST);
+            return r.success;
         }
     }
 }

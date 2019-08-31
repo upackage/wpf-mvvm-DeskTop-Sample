@@ -22,7 +22,7 @@
     <Grid>
         <TabControl SelectedIndex="{Binding TabPageIndex}">
             <!--列表页-->
-            <TabItem>
+            <TabItem Visibility="Collapsed">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="80"/>
@@ -96,7 +96,7 @@
             </TabItem>
 
             <!--编辑页-->
-            <TabItem>
+            <TabItem Visibility="Collapsed">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="35"/>
@@ -137,15 +137,44 @@
                         </TextBox>
 
                         <TextBox Grid.Column="1"  Margin="15 0 10 0"
-                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"  materialDesign:HintAssist.Hint="用户名 *" Text="{Binding Model.UserName}">
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"  materialDesign:HintAssist.Hint="用户名 *">
+                            <TextBox.Text>
+                                <Binding Path="Model.UserName" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
+                                    <Binding.ValidationRules>
+                                        <domain:CustomizeValidationRule validationType="Str" 
+                                                                        minLength="4" maxLength="20"
+                                                                        errorMessage="输入长度范围 [5-20]字" 
+                                                                        ValidatesOnTargetUpdated="True" />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
                         </TextBox>
 
                         <TextBox Grid.Row="1" Margin="15 0 10 0"
-                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"  materialDesign:HintAssist.Hint="用户密码 *"  Text="{Binding Model.Password}">
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"  materialDesign:HintAssist.Hint="用户密码 *">
+                            <TextBox.Text>
+                                <Binding Path="Model.Password" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
+                                    <Binding.ValidationRules>
+                                        <domain:CustomizeValidationRule validationType="Str" 
+                                                                        minLength="6" maxLength="20"
+                                                                        errorMessage="输入长度范围 [6-20]字" 
+                                                                        ValidatesOnTargetUpdated="True" />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
                         </TextBox>
 
                         <TextBox Grid.Row="1" Grid.Column="1"  Margin="15 0 10 0"
-                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"  materialDesign:HintAssist.Hint="联系电话 *"  Text="{Binding Model.Tel}" >
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"  materialDesign:HintAssist.Hint="联系电话 *">
+                            <TextBox.Text>
+                                <Binding Path="Model.Tel" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
+                                    <Binding.ValidationRules>
+                                        <domain:CustomizeValidationRule validationType="Phone" 
+                                                                        errorMessage="电话号码格式错误" 
+                                                                        ValidatesOnTargetUpdated="True" />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
                         </TextBox>
 
                         <TextBox Grid.Row="2" Grid.ColumnSpan="2" Margin="15 0 10 0" 

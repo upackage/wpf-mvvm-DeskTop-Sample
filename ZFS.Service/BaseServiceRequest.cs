@@ -24,7 +24,9 @@ namespace ZFS.Service
         public async Task<T> GetRequest(BaseRequest br, Method method = Method.GET)
         {
             string pms = br.GetPropertiesObject();
-            string url = br.route + (method == Method.GET ? pms : string.Empty);
+            string url = br.route;
+            if (!string.IsNullOrWhiteSpace(br.getParameter))
+                url = br.route + br.getParameter;
             string resultString = await certHttp.RequestBehavior(method, url, pms);
             T result = JsonConvert.DeserializeObject<T>(resultString);
             return result;

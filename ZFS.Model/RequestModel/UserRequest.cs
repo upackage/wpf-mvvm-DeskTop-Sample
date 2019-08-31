@@ -15,7 +15,8 @@ namespace ZFS.Model.RequestModel
     /// </summary>
     public class UserLoginRequest : BaseRequest
     {
-        public override string route { get { return ServerIP + "api/User/Login"; } }
+
+        public override string route { get => ServerIP + "api/User/Login"; }
 
         public string account { get; set; }
 
@@ -24,7 +25,8 @@ namespace ZFS.Model.RequestModel
 
     public class UserLoginAuthRequest : BaseRequest
     {
-        public override string route { get { return ServerIP + "api/User/Perm"; } }
+
+        public override string route { get => ServerIP + "api/User/Perm"; }
 
         public string account { get; set; }
     }
@@ -34,24 +36,31 @@ namespace ZFS.Model.RequestModel
     /// </summary>
     public class UserQueryRequest : BaseRequest
     {
-
-        public override string route { get { return ServerIP + "api/User/GetUser"; } }
+        public override string route { get => ServerIP + "api/User/GetUser";  }
 
         public UserParameters parameters { get; set; }
     }
 
-    public class UserAeRequest : BaseRequest
+    public class UserAddRequest : BaseRequest
     {
-        public override string route { get { return ServerIP + "api/User"; } }
+        public override string route { get => ServerIP + "api/User/AddUser"; }
 
+        public User Entity { get; set; }
+    }
+
+    public class UserUpdateRequest : BaseRequest
+    {
+        public override string route { get => ServerIP + "api/User/UpdateUser";}
+
+        public int id { get; set; }
         public User Entity { get; set; }
     }
 
     public class UserDeleteRequest : BaseRequest
     {
-        public override string route { get { return ServerIP + "api/User"; } }
+        public override string route { get => ServerIP + "api/User/DeleteUser"; }
 
-        public Guid id { get; set; }
+        public int id { get; set; }
     }
 
     #endregion

@@ -5,6 +5,7 @@ using System.Text;
 
 namespace ZFS.Model.Entity
 {
+    [Serializable]
     public class GroupFunc : BaseEntity
     {
         public string GroupCode { get; set; }

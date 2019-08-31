@@ -4,6 +4,7 @@ using System.Text;
 
 namespace ZFS.Model.Entity
 {
+    [Serializable]
     public class User : BaseEntity
     {
         public string Account { get; set; }

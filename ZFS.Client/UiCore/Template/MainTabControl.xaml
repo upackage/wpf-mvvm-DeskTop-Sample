@@ -17,7 +17,7 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type TabItem}">
-                                <Grid x:Name="templateRoot" SnapsToDevicePixels="true"  Margin="5 0 0 0">
+                                <Grid x:Name="templateRoot" SnapsToDevicePixels="true"  Margin="10 0 0 0">
                                     <Border x:Name="mainBorder" BorderBrush="Transparent"  FocusVisualStyle="{x:Null}"
                                             BorderThickness="1" Background="#EFF2F4" Margin="0">
                                     </Border>
@@ -65,7 +65,7 @@
                                 </Style>
                             </TextBlock.Resources>
                         </TextBlock>
-                        <Border CornerRadius="10" Width="15" Height="15" Margin="5 0 0 0">
+                        <!--<Border CornerRadius="10" Width="15" Height="15" Margin="5 0 0 0">
                             <Border.Resources>
                                 <Style TargetType="{x:Type Border}">
                                     <Style.Triggers>
@@ -94,7 +94,7 @@
                                         </i:EventTrigger>
                                  </i:Interaction.Triggers>
                             </TextBlock>
-                        </Border>
+                        </Border>-->
                     </StackPanel>
                 </DataTemplate>
             </TabControl.ItemTemplate>
