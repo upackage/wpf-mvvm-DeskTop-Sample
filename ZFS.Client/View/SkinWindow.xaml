@@ -1,0 +1,82 @@
+﻿<UserControl
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+          xmlns:local="clr-namespace:ZFS.Client.View"
+       xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+     xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:Converters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
+    xmlns:system="clr-namespace:System;assembly=mscorlib" x:Class="ZFS.Client.View.SkinWindow"
+        mc:Ignorable="d"
+        Width="800" Height="600">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <materialDesign:ColorZone  Padding="40" Mode="PrimaryMid"/>
+            <StackPanel Orientation="Horizontal">
+                <materialDesign:PackIcon Kind="Palette" Width="20" Height="20" 
+                                             VerticalAlignment="Center"  Foreground="White" Margin="5 0 0 0"/>
+                <TextBlock Text="皮肤设置" FontSize="12" Foreground="White" 
+                               VerticalAlignment="Center" Margin="5 0 0 0" />
+            </StackPanel>
+
+
+            <Border  Width="20" Height="20" HorizontalAlignment="Right" Margin="0 0 5 0">
+                        <TextBlock Text="❎"  Foreground="White" FontSize="15"
+                                       HorizontalAlignment="Center" 
+                                       VerticalAlignment="Center">
+                                 <i:Interaction.Triggers>
+                                     <i:EventTrigger EventName="MouseLeftButtonDown">
+                                        <i:InvokeCommandAction Command="{x:Static wpf:DialogHost.CloseDialogCommand}"/>
+                                        </i:EventTrigger>
+                                 </i:Interaction.Triggers>
+                </TextBlock>
+            </Border>
+
+
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="多彩" Margin="15" FontSize="15" Foreground="#9E9E9E" FontFamily="宋体"/>
+                <TextBlock Text="推荐" Margin="10 15 15 15" Foreground="#9E9E9E" FontSize="15" FontFamily="宋体"/>
+                <TextBlock Text="自定义" Margin="10 15 15 15" Foreground="#9E9E9E" FontSize="15" FontFamily="宋体"/>
+            </StackPanel>
+
+            <ScrollViewer Margin="0 40 0 0" Template="{StaticResource MyScrollViewer}">
+                <ItemsControl  ItemsSource="{Binding Path=Swatches}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Rows="4" Columns="5"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="5">
+                                <Button  Command="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:SkinWindow}},Path=DataContext.ApplyCommand,Mode=OneTime}" 
+                                 CommandParameter="{Binding}"
+                                 Width="125" Height="125"
+                                 BorderBrush="Transparent"
+                                 >
+                                    <Button.Background>
+                                        <SolidColorBrush Color="{Binding ExemplarHue.Color,Mode=OneTime}"/>
+                                    </Button.Background>
+                                </Button>
+                                <TextBlock Text="{Binding Name}" HorizontalAlignment="Center" Margin="0 5 0 0" Foreground="#9E9E9E" FontSize="12"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Grid>
+
+    </Grid>
+</UserControl>

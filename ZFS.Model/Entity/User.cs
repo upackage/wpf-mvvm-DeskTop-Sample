@@ -19,9 +19,9 @@ namespace ZFS.Model.Entity
 
         public string Password { get; set; }
 
-        public DateTime LastLoginTime { get; set; }
+        public DateTime LastTime { get; set; }
 
-        public DateTime LastLogouTime { get; set; }
+        public DateTime EndTime { get; set; }
 
         public int IsLocked { get; set; }
 

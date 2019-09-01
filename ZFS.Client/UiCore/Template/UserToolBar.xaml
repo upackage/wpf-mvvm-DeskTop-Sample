@@ -31,7 +31,6 @@
                                                          VerticalAlignment="Center">
                             </materialDesign:PackIcon>
                         </Button>
-                        
                     </StackPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

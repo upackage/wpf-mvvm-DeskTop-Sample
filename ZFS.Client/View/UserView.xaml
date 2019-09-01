@@ -59,7 +59,7 @@
                             <DataGridTextColumn Binding="{Binding Tel}" Header="电话" />
                             <DataGridTextColumn Binding="{Binding FlagOnline,Converter={StaticResource sta}}" Header="状态" />
                             <DataGridTextColumn Binding="{Binding CreateTime,StringFormat={}{0:yyyy-MM-dd hh:mm}}" Header="创建时间" />
-                            <DataGridTextColumn Binding="{Binding LastLoginTime,StringFormat={}{0:yyyy-MM-dd hh:mm}}" Header="最后登录时间" />
+                            <DataGridTextColumn Binding="{Binding LastTime,StringFormat={}{0:yyyy-MM-dd hh:mm}}" Header="最后登录时间" />
                             <DataGridTextColumn Binding="{Binding LoginCounter}" Header="登陆次数" />
                             <DataGridTemplateColumn Header="操作" >
                                 <DataGridTemplateColumn.CellTemplate>

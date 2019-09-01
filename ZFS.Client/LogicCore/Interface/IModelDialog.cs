@@ -9,7 +9,7 @@ using System.Windows.Controls;
 namespace ZFS.Client.LogicCore.Interface
 {
     /// <summary>
-    /// 弹窗接口(表单编辑页实现该接口)
+    /// 弹窗接口
     /// </summary>
     public interface IModelDialog
     {

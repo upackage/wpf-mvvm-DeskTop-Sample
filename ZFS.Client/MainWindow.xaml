@@ -16,8 +16,8 @@
     </Window.Resources>
     <Grid>
         <Border BorderBrush="#1D2B36" BorderThickness="1"/>
-        <materialDesign:DialogHost Identifier="AppDialog" Margin="1">
-            <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
+        <materialDesign:DialogHost Identifier="RootDialog" Margin="1">
+            <materialDesign:DrawerHost>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="70"/>

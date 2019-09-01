@@ -60,14 +60,20 @@
     <Compile Include="PreventAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Query\DictionariesParameters.cs" />
+    <Compile Include="Query\GroupParameters.cs" />
+    <Compile Include="Query\MenuParameters.cs" />
     <Compile Include="Query\QueryParameters.cs" />
     <Compile Include="Query\UserParameters.cs" />
     <Compile Include="RequestModel\BasePaging.cs" />
     <Compile Include="RequestModel\BaseRequest.cs" />
     <Compile Include="RequestModel\DictionariesRequest.cs" />
+    <Compile Include="RequestModel\GroupRequest.cs" />
+    <Compile Include="RequestModel\MenuRequest.cs" />
     <Compile Include="RequestModel\UserRequest.cs" />
     <Compile Include="ResponseModel\BaseResponse.cs" />
     <Compile Include="ResponseModel\DictionariesResponse.cs" />
+    <Compile Include="ResponseModel\GroupResponse.cs" />
+    <Compile Include="ResponseModel\MenuResponse.cs" />
     <Compile Include="ResponseModel\UserResponse.cs" />
   </ItemGroup>
   <ItemGroup>

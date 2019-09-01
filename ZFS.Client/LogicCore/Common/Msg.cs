@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ZFS.Client.LogicCore.Configuration;
+using ZFS.Client.LogicCore.Interface;
+using ZFS.Client.UiCore.Template;
 
 namespace ZFS.Client.LogicCore.Common
 {
@@ -104,32 +107,11 @@ namespace ZFS.Client.LogicCore.Common
                     Hide = false;
                     break;
             }
-            //if (!Host)
-            //{
-            //    MsgBoxViewModel msgBox = new MsgBoxViewModel();
-            //    var dialog = ServiceProvider.Instance.Get<IModelDialog>("MsgHostBoxViewDlg");
-            //    dialog.BindViewModel(new MsgBoxViewModel() { Msg = msg, Icon = Icon, Color = Color, BtnHide = Hide });
-            //    var TaskResult = await dialog.ShowDialog();
-            //    if (TaskResult)
-            //    {
-            //        return true;
-            //    }
-            //    return false;
-            //}
-            //else
-            //{
-            //    MsgBoxViewModel msgBox = new MsgBoxViewModel();
-            //    var dialog = ServiceProvider.Instance.Get<IModelDialog>("MsgBoxViewDlg");
-            //    dialog.BindViewModel(new MsgBoxViewModel() { Msg = msg, Icon = Icon, Color = Color, BtnHide = Hide });
-            //    var TaskResult = await dialog.ShowDialog();
-            //    if (TaskResult)
-            //    {
-            //        return true;
-            //    }
-            //    return false;
-            //}
 
-            return false;
+            var dialog = ServiceProvider.Instance.Get<IShowContent>();
+            dialog.BindDataContext(new MsgBox(), new MsgBoxViewModel() { Msg = msg, Icon = Icon, Color = Color, BtnHide = Hide });
+            var result = await dialog.Show();
+            return result;
         }
     }
 }

@@ -10,16 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ZFS.Client.UiCore.Template
+namespace ZFS.Client.View
 {
     /// <summary>
-    /// MsgBox.xaml 的交互逻辑
+    /// StepView.xaml 的交互逻辑
     /// </summary>
-    public partial class MsgBox : UserControl
+    public partial class StepView : UserControl
     {
-        public MsgBox()
+        public StepView()
         {
             InitializeComponent();
         }

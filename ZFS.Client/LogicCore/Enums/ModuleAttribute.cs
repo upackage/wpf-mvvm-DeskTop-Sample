@@ -51,7 +51,7 @@ namespace ZFS.Client.LogicCore.Enums
         //[Description("文档中心", "\xe64d")]
         //DocumentCenter,
 
-        [Description("系统设置", "\xe644")]
+        [Description("设置中心", "\xe644")]
         SystemSettings,
     }
 

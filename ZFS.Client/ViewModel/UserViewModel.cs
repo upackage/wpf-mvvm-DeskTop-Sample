@@ -54,10 +54,13 @@ namespace ZFS.Client.ViewModel
         public override async void Del<TModel>(TModel model)
         {
             var user = model as User;
-            var delResult = await service.DeleteUserAsync(user.Id);
-            if (delResult)
+            if (await Msg.Question($"确认删除用户:{user.UserName}"))
             {
-                GetPageData(this.PageIndex);
+                var delResult = await service.DeleteUserAsync(user.Id);
+                if (delResult)
+                {
+                    GetPageData(this.PageIndex);
+                }
             }
         }
 
@@ -73,7 +76,7 @@ namespace ZFS.Client.ViewModel
                 var addResult = await service.AddUserAsync(Model);
                 if (addResult)
                 {
-                    GridModelList.Add(Model);
+                    this.GetPageData(this.PageIndex);
                 }
             }
             else

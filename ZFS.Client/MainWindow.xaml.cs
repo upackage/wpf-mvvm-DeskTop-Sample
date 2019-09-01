@@ -26,14 +26,6 @@ namespace ZFS.Client
         {
             InitializeComponent();
             this.Zone.MouseDoubleClick += (sender, e) => { Max(); };
-            //listMain.PreviewMouseWheel += (sender, e) =>
-            //{
-            //    var eventArg = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta);
-            //    eventArg.RoutedEvent = UIElement.MouseWheelEvent;
-            //    eventArg.Source = sender;
-            //    listMain.RaiseEvent(eventArg);
-            //};
-            Messenger.Default.Register<ExpansionState>(this, "expansionCommand", expansionComand);
         }
         
         #region Messenger
@@ -51,13 +43,6 @@ namespace ZFS.Client
         }
 
         #endregion
-
-        private void expansionComand(ExpansionState expansion)
-        {
-            //if (expansion == ExpansionState.Close)
-            //    AnimationDesgin.StoryBoard(glf, 80, 250, 300, "Width");
-            //else
-            //    AnimationDesgin.StoryBoard(glf, 250, 80, 300, "Width");
-        }
+        
     }
 }

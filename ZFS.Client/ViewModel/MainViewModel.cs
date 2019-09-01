@@ -19,6 +19,11 @@ namespace ZFS.Client.ViewModel
     /// </summary>
     public class MainViewModel : ViewModelBase
     {
+        public MainViewModel()
+        {
+            //CommandParameter = "{Binding Path=DataContext,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type TabItem}}}"
+        }
+
         #region 模块系统
 
         private ModuleManager _ModuleManager;
@@ -74,23 +79,6 @@ namespace ZFS.Client.ViewModel
 
         private RelayCommand<Module> _ExcuteCommand;
         private RelayCommand<PageInfo> _ExitCommand;
-        private RelayCommand<ModuleGroup> _ExcuteGroupCommand;
-
-        /// <summary>
-        /// 打开分组
-        /// </summary>
-        public RelayCommand<ModuleGroup> ExcuteGroupCommand
-        {
-            get
-            {
-                if (_ExcuteGroupCommand == null)
-                {
-                    _ExcuteGroupCommand = new RelayCommand<ModuleGroup>(t => ExcuteGroup(t));
-                }
-                return _ExcuteGroupCommand;
-            }
-            set { _ExcuteGroupCommand = value; RaisePropertyChanged(); }
-        }
 
         /// <summary>
         /// 打开模块
@@ -150,15 +138,6 @@ namespace ZFS.Client.ViewModel
             }
         }
 
-        public void ExcuteGroup(ModuleGroup group)
-        {
-            ModuleManager.Modules.Clear();
-            foreach (var m in group.Modules)
-                ModuleManager.Modules.Add(m);
-            if (expansionState == ExpansionState.Open)
-                expansionAction();
-        }
-
         /// <summary>
         /// 执行模块
         /// </summary>
@@ -178,7 +157,6 @@ namespace ZFS.Client.ViewModel
                 }
                 else
                 {
-                    expansionAction();//收起
                     await Task.Factory.StartNew(() =>
                     {
                         var dialog = ServiceProvider.Instance.Get<IModel>(module.Code);
@@ -216,60 +194,38 @@ namespace ZFS.Client.ViewModel
             }
         }
 
-        #endregion
-
-        #region 首页UI_Command
-
-        private ExpansionState expansionState = ExpansionState.Open;
-
-        private RelayCommand expansionCommand;
-        private RelayCommand<string> inputChangeCommand;
-
-        public RelayCommand ExpansionCommand
+        public void ExitPage(MenuBehaviorType behaviorType, string pageName)
         {
-            get
+            switch (behaviorType)
             {
-                if (expansionCommand == null)
-                    expansionCommand = new RelayCommand(() => expansionAction());
-                return expansionCommand;
-            }
-        }
-
-        public RelayCommand<string> InputChangeCommand
-        {
-            get
-            {
-                if (inputChangeCommand == null)
-                    inputChangeCommand = new RelayCommand<string>((t) => inputEvent(t));
-                return inputChangeCommand;
-            }
-        }
-
-        private void expansionAction()
-        {
-            bool v = expansionState == ExpansionState.Close;
-            expansionState = v ? ExpansionState.Open : ExpansionState.Close;
-            Messenger.Default.Send(expansionState, "expansionCommand");
-        }
-
-        public void inputEvent(string input)
-        {
-            ModuleManager.Modules.Clear();
-            if (string.IsNullOrWhiteSpace(input)) return;
-            var groups = ModuleManager.ModuleGroups.Select(t => t.Modules.Where(q => q.Name.Contains(input)).ToList()).ToList();
-            if (groups != null)
-            {
-                groups.ForEach(arg =>
-                {
-                    arg.ForEach(args =>
+                case MenuBehaviorType.ExitCurrentPage:
+                    var page = OpenPageCollection.FirstOrDefault(t => t.HeaderName.Equals(pageName));
+                    if (page.HeaderName != "系统首页") OpenPageCollection.Remove(page);
+                    break;
+                case MenuBehaviorType.ExitAllPage:
+                    var pageList = OpenPageCollection.Where(t => t.HeaderName != "系统首页").ToList();
+                    if (pageList != null)
                     {
-                        ModuleManager.Modules.Add(args);
-                    });
-                });
+                        pageList.ForEach(t =>
+                        {
+                            OpenPageCollection.Remove(t);
+                        });
+                    }
+                    break;
+                case MenuBehaviorType.ExitAllExcept:
+                    var pageListExcept = OpenPageCollection.Where(t => t.HeaderName != pageName && t.HeaderName != "系统首页").ToList();
+                    if (pageListExcept != null)
+                    {
+                        pageListExcept.ForEach(t =>
+                        {
+                            OpenPageCollection.Remove(t);
+                        });
+                    }
+                    break;
             }
         }
 
-
         #endregion
+
     }
 }

@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ZFS.Client.LogicCore.Configuration;
 using ZFS.Client.LogicCore.Interface;
+using ZFS.Client.View;
 
 namespace ZFS.Client.LogicCore.Common
 {
@@ -21,6 +22,10 @@ namespace ZFS.Client.LogicCore.Common
         public PopBoxViewModel()
         {
             pupBoxModelsl = new ObservableCollection<PupBoxModel>();
+            SkinCommand = new RelayCommand(() => Skin());
+            StepCommand = new RelayCommand(() => Step());
+            AboutCommand = new RelayCommand(() => About());
+            NoticeCommand = new RelayCommand(() => OpenNotice());
             this.GetBoxModels();
         }
 
@@ -49,21 +54,21 @@ namespace ZFS.Client.LogicCore.Common
 
         #region ICommand
 
-        public RelayCommand SkinCommand { get; } = new RelayCommand(async () => await Skin());
+        public RelayCommand SkinCommand { get; }
 
-        public RelayCommand StepCommand { get; } = new RelayCommand(() => Step());
+        public RelayCommand StepCommand { get; }
 
-        public RelayCommand AboutCommand { get; } = new RelayCommand(() => About());
+        public RelayCommand AboutCommand { get; }
 
-        public RelayCommand NoticeCommand { get; } = new RelayCommand(() => OpenNotice());
-        
+        public RelayCommand NoticeCommand { get; }
+
 
 
         #endregion
 
         #region ICommand 实现
 
-        public static void Min()
+        public void Min()
         {
             Messenger.Default.Send("", "MinWindow");
         }
@@ -72,18 +77,17 @@ namespace ZFS.Client.LogicCore.Common
         /// <summary>
         /// 皮肤设置
         /// </summary>
-        private async static Task Skin()
+        private void Skin()
         {
-            SkinViewModel model = new SkinViewModel();
-            var dialog = ServiceProvider.Instance.Get<IModelDialog>("SkinViewDlg");
-            dialog.BindViewModel(model);
-            await DialogHost.Show(dialog.GetDialog(), "RootDialog");
+            var dialog = ServiceProvider.Instance.Get<IShowContent>();
+            dialog.BindDataContext(new SkinWindow(), new SkinViewModel());
+            dialog.Show();
         }
 
         /// <summary>
         /// 系统设置
         /// </summary>
-        private static void Step()
+        private void Step()
         {
 
         }
@@ -91,7 +95,7 @@ namespace ZFS.Client.LogicCore.Common
         /// <summary>
         /// 关于作者
         /// </summary>
-        private static void About()
+        private void About()
         {
             //About about = new About();
             //about.ShowDialog();
@@ -100,14 +104,14 @@ namespace ZFS.Client.LogicCore.Common
         /// <summary>
         /// 通知中心
         /// </summary>
-        public static void OpenNotice()
+        public void OpenNotice()
         {
             NoticeViewModel view = new NoticeViewModel();
             var Dialog = ServiceProvider.Instance.Get<IModelDialog>("NoticeViewDlg");
             Dialog.BindViewModel(view);
             Dialog.ShowDialog();
         }
-        
+
         #endregion
     }
 

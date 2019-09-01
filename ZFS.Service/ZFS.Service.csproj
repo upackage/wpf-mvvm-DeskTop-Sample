@@ -55,6 +55,8 @@
     <Compile Include="Method.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\DictionaryService.cs" />
+    <Compile Include="Service\GroupService.cs" />
+    <Compile Include="Service\MenuService.cs" />
     <Compile Include="Service\UserService.cs" />
   </ItemGroup>
   <ItemGroup>

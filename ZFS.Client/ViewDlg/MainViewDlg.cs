@@ -50,13 +50,14 @@ namespace ZFS.Client.ViewDlg
             {
                 if (await Msg.Question(msg))
                 {
-                  //  IUser user = ServiceProvider.Instance.Get<IBridgeManager>
-                  //(Loginer.LoginerUser.ServerBridgeType).GetUserManager();
-                  //  var r = await user.Logout(Loginer.LoginerUser.Account);
-                  //  if (r.Success)
-                  //      this.Close();
-                  //  else
-                  //      Msg.Error(r.ErrorCode);
+                    //  IUser user = ServiceProvider.Instance.Get<IBridgeManager>
+                    //(Loginer.LoginerUser.ServerBridgeType).GetUserManager();
+                    //  var r = await user.Logout(Loginer.LoginerUser.Account);
+                    //  if (r.Success)
+                    //      this.Close();
+                    //  else
+                    //      Msg.Error(r.ErrorCode);
+                    this.Close();
                 }
             }));
             Messenger.Default.Register<string>(GetDialogWindow(), "MinWindow", new Action<string>((msg) => { GetDialogWindow().WindowState = WindowState.Minimized; }));

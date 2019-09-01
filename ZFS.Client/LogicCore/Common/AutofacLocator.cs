@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using ZFS.Client.LogicCore.Interface;
+using ZFS.Client.ViewDlg;
 using ZFS.Core.Interfaces;
 using ZFS.Service.Service;
 
@@ -32,7 +33,12 @@ namespace ZFS.Client.LogicCore.Common
             Assembly asm = Assembly.GetExecutingAssembly();
             RegisterByAssembly(asm, ref Container);  //Auto Service
             Container.RegisterType<UserService>().As<IUserService>();
+            Container.RegisterType<GroupService>().As<IGroupService>();
+            Container.RegisterType<MenuService>().As<IMenuService>();
             Container.RegisterType<DictionaryService>().As<IDictionariesService>();
+
+            Container.RegisterType<MsgDlg>().As<IShowContent>();
+
             container = Container.Build();
         }
 
